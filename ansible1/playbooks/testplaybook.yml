@@ -1,0 +1,16 @@
+- name: Update web servers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Ensure apache is at the latest version
+      ansible.builtin.apt:
+        name: apache2
+        state: latest
+        update_cache: yes
+        force_apt_get: yes
+
+    - name: Write the apache config file
+      ansible.builtin.template:
+        src: templates/httpd.j2
+        dest: /etc/apache2/httpd.conf
+
